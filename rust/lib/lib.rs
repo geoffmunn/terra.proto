@@ -167,6 +167,9 @@ pub mod cosmos {
         pub mod v1beta1 {
             include!("models/cosmos.gov.v1beta1.rs");
         }
+        pub mod v1 {
+            include!("models/cosmos.gov.v1.rs");
+        }
     }
 
     /// Messages and services handling minting
@@ -232,6 +235,12 @@ pub mod cosmwasm {
     pub mod wasm {
         pub mod v1 {
             include!("models/cosmwasm.wasm.v1.rs");
+        }
+    }
+    /// Messages and services handling CosmWasm.
+    pub mod tokenfactory {
+        pub mod v1beta1 {
+            include!("models/cosmwasm.tokenfactory.v1beta1.rs");
         }
     }
 }
