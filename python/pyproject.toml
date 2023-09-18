@@ -13,12 +13,12 @@ classifiers = [
 ]
 description = "The Python Protobuf implementation for Terra Classic"
 homepage = "https://github.com/geoffmunn/terra.proto"
-keywords = ["jigu", "blockchain", "defi", "crypto", "terra", "terra classic", "luna classic", "luna classic sdk"]
+keywords = ["jigu", "blockchain", "defi", "crypto", "terra", "terra classic", "luna classic", "luna classic sdk", "terra classic sdk"]
 license = "MIT"
 packages = [{ include = "terra_proto" }]
 readme = "README.md"
 repository = "https://github.com/geoffmunn/terra.proto"
-version = "3.0.1"
+version = "3.0.2"
 
 [tool.poetry.dependencies]
 python = "^3.7"
