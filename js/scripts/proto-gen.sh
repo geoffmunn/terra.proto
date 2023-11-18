@@ -10,23 +10,36 @@ PROTOC_GEN_TS_PROTO_PATH="./node_modules/.bin/protoc-gen-ts_proto"
 mkdir -p "$OUT_DIR"
 
 echo "Processing proto files ..."
-COSMOS_SDK_DIR="../cosmos-sdk/proto"
-COSMOS_SDK_THIRD_PARTY_DIR="../cosmos-sdk/third_party/proto"
-IBC_DIR="../ibc-go/proto"
-WASMD_DIR="../wasmd/proto"
-ALLIANCE_DIR="../alliance/proto"
-JAX_DIR="../jax/proto"
-THIRD_PARTY="../third_party"
+PROTOBUF_DIR=$(readlink -f "../protobuf")
+COSMOS_SDK_DIR=$(readlink -f "../cosmos-sdk/proto")
+ALLIANCE_DIR=$(readlink -f "../alliance/proto")
+IBC_DIR=$(readlink -f "../ibc-go/proto")
+PFM_DIR=$(readlink -f "../ibc-apps/middleware/packet-forward-middleware/proto")
+ICQ_DIR=$(readlink -f "../ibc-apps/modules/async-icq/proto")
+WASMD_DIR=$(readlink -f "../wasmd/proto")
+GRPC_DIR=$(readlink -f "../grpc-gateway")
+JAX_DIR=$(readlink -f "../jax/proto")
+COSMOS_DIR=$(readlink -f "../cosmos-proto/proto")
+TERRA_DIR=$(readlink -f "../terra/proto")
+POB_DIR=$(readlink -f "../pob/proto")
 
-protoc \
+protoc  \
+  -I "$PROTOBUF_DIR" \
+  -I "$PROTOBUF_DIR/protobuf" \
+  -I "$COSMOS_SDK_DIR" \
+  -I "$ALLIANCE_DIR" \
+  -I "$IBC_DIR" \
+  -I "$PFM_DIR" \
+  -I "$WASMD_DIR" \
+  -I "$GRPC_DIR" \
+  -I "$GRPC_DIR/third_party" \
+  -I "$GRPC_DIR/third_party/googleapis" \
+  -I "$JAX_DIR" \
+  -I "$COSMOS_DIR" \
+  -I "$ICQ_DIR" \
+  -I "$TERRA_DIR" \
+  -I "$POB_DIR" \
+  $(find $COSMOS_SDK_DIR $ALLIANCE_DIR $IBC_DIR $PFM_DIR $WASMD_DIR $COSMOS_DIR $TERRA_DIR $POB_DIR $ICQ_DIR -path -prune -o -name '*.proto' -print0 | xargs -0) \
   --plugin="protoc-gen-ts_proto=${PROTOC_GEN_TS_PROTO_PATH}" \
   --ts_proto_out="${OUT_DIR}" \
-  --ts_proto_opt="esModuleInterop=true,forceLong=long,useOptionals=true,outputClientImpl=grpc-web" \
-  --proto_path="$COSMOS_SDK_DIR" \
-  --proto_path="$COSMOS_SDK_THIRD_PARTY_DIR" \
-  --proto_path="$WASMD_DIR" \
-  --proto_path="$IBC_DIR" \
-  --proto_path="$ALLIANCE_DIR" \
-  --proto_path="$JAX_DIR" \
-  --proto_path="$THIRD_PARTY" \
-  $(find ${COSMOS_SDK_DIR} ${COSMOS_SDK_THIRD_PARTY_DIR} ${WASMD_DIR} ${IBC_DIR} ${ALLIANCE_DIR} ${JAX_DIR} ${THIRD_PARTY} -path -prune -o -name '*.proto' -print0 | xargs -0)
+  --ts_proto_opt="esModuleInterop=true,forceLong=long,useOptionals=true,outputClientImpl=grpc-web" 
