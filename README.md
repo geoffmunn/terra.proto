@@ -10,11 +10,21 @@ This version includes the missing market module, and some minor code changes to 
 
 It is specifically built to work with the Terra Classic SDK: https://pypi.org/project/terra-classic-sdk/
 
-### Recent changes
+## Recent changes
 
-#### 3.0.2
+### 3.1.1
 
- - Terra.proto for Terra Classic now has native support for Osmosis. You can send LUNC to an Osmosis address and use it to swap LUNC to any Osmosis-supported coin or token.
+- All Python packages updated to the latest version.
+ - Except betterproto which is already on a pre-release version and the latest version presented errors.
+
+
+### 3.1.0
+
+- Merged changes from the official terra.proto library. No functionality changes or improvements.
+
+### 3.0.2
+
+- Terra.proto for Terra Classic now has native support for Osmosis. You can send LUNC to an Osmosis address and use it to swap LUNC to any Osmosis-supported coin or token.
 
 ## Development
 
