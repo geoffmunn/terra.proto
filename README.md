@@ -17,7 +17,6 @@ It is specifically built to work with the Terra Classic SDK: https://pypi.org/pr
 - All Python packages updated to the latest version.
  - Except betterproto which is already on a pre-release version and the latest version presented errors.
 
-
 ### 3.1.0
 
 - Merged changes from the official terra.proto library. No functionality changes or improvements.
