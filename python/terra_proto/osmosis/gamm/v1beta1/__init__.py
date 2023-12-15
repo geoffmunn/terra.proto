@@ -83,6 +83,37 @@ class PoolParams(betterproto.Message):
         3
     )
 
+    def to_data(self) -> dict:
+        """
+        Create a dict object from the provided PoolParams object
+        """
+
+        result:dict = {
+            'params': {
+                'swap_fee': self.swap_fee, 
+                'exit_fee': self.exit_fee, 
+                'smooth_weight_change_params': self.smooth_weight_change_params
+            }
+        }
+
+        return result
+    
+    @classmethod
+    def from_data(cls, data: dict):
+        """
+        Deserializes a :class:`PoolParam` object from its JSON data representation.
+
+        Args:
+            data (dict): data object
+        """
+
+        # Get the basic items
+        swap_fee:float                   = data['swap_fee']
+        exit_fee:float                   = data['exit_fee']
+        smooth_weight_change_params:None = None
+        
+        return cls(swap_fee, exit_fee, smooth_weight_change_params)
+
 
 @dataclass(eq=False, repr=False)
 class PoolAsset(betterproto.Message):
