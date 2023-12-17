@@ -215,9 +215,9 @@ class Pool(betterproto.Message):
 
         # Shares are just Coin objects
         if 'total_shares' in data:
-            total_shares: "___cosmos_base_v1_beta1__.Coin" = "___cosmos_base_v1_beta1__.Coin".from_data(data['total_shares'])
+            total_shares:"___cosmos_base_v1_beta1__.Coin" = ___cosmos_base_v1_beta1__.Coin().from_dict(data['total_shares'])
         else:
-            total_shares: "___cosmos_base_v1_beta1__.Coin" = None
+            total_shares:"___cosmos_base_v1_beta1__.Coin" = None
         
         # Build a list of assets
         pool_assets:list = []
