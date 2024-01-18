@@ -25,8 +25,6 @@ if TYPE_CHECKING:
     import grpclib.server
     from betterproto.grpc.grpclib_client import MetadataLike
     from grpclib.metadata import Deadline
-
-
 @dataclass(eq=False, repr=False)
 class SmoothWeightChangeParams(betterproto.Message):
     """
@@ -83,6 +81,37 @@ class PoolParams(betterproto.Message):
         3
     )
 
+    def to_data(self) -> dict:
+        """
+        Create a dict object from the provided PoolParams object
+        """
+
+        result:dict = {
+            'params': {
+                'swap_fee': self.swap_fee, 
+                'exit_fee': self.exit_fee, 
+                'smooth_weight_change_params': self.smooth_weight_change_params
+            }
+        }
+
+        return result
+    
+    @classmethod
+    def from_data(cls, data: dict):
+        """
+        Deserializes a :class:`PoolParam` object from its JSON data representation.
+
+        Args:
+            data (dict): data object
+        """
+
+        # Get the basic items
+        swap_fee:float                   = data['swap_fee']
+        exit_fee:float                   = data['exit_fee']
+        smooth_weight_change_params:None = None
+        
+        return cls(swap_fee, exit_fee, smooth_weight_change_params)
+
 
 @dataclass(eq=False, repr=False)
 class PoolAsset(betterproto.Message):
@@ -104,10 +133,12 @@ class PoolAsset(betterproto.Message):
 
 @dataclass(eq=False, repr=False)
 class Pool(betterproto.Message):
-    address: str = betterproto.string_field(1)
-    id: int = betterproto.uint64_field(2)
-    pool_params: "PoolParams" = betterproto.message_field(3)
-    future_pool_governor: str = betterproto.string_field(4)
+    type:str = betterproto.string_field(1)
+    address: str = betterproto.string_field(2)
+    id: int = betterproto.uint64_field(3)
+    pool_params: "PoolParams" = betterproto.message_field(4)
+    future_pool_governor: str = betterproto.string_field(5)
+
     """
     This string specifies who will govern the pool in the future. Valid forms
     of this are: {token name},{duration} {duration} where {token name} if
@@ -117,18 +148,96 @@ class Pool(betterproto.Message):
     in governance. 0w means no lockup. TODO: Further improve these docs
     """
 
-    total_shares: "___cosmos_base_v1_beta1__.Coin" = betterproto.message_field(5)
+    total_shares: "___cosmos_base_v1_beta1__.Coin" = betterproto.message_field(6)
     """sum of all LP tokens sent out"""
 
-    pool_assets: List["PoolAsset"] = betterproto.message_field(6)
+    pool_assets: List["PoolAsset"] = betterproto.message_field(7)
     """
     These are assumed to be sorted by denomiation. They contain the pool asset
     and the information about the weight
     """
 
-    total_weight: str = betterproto.string_field(7)
+    total_weight: str = betterproto.string_field(8)
     """sum of all non-normalized pool weights"""
 
+    def to_data(self) -> dict:
+
+        pool_assets = []
+        asset:PoolAsset
+        for asset in self.pool_assets:
+            pool_assets.append(asset.to_dict())
+
+        result:dict = {
+            'pool': {
+                'type': self.type,
+                'address': self.address, 
+                'future_pool_governor': self.future_pool_governor, 
+                'id': self.id, 
+                'pool_assets': pool_assets,
+                'pool_params': self.pool_params.to_dict(),
+                'total_weight': self.total_weight,
+                'total_shares': self.total_shares.to_data()
+            }
+        }
+
+        return result
+    
+    @classmethod
+    def from_data(cls, data: dict):
+        """Deserializes a :class:`Pool` object from its JSON data representation.
+
+        Args:
+            data (dict): data object
+        """
+
+        # Get the basic items
+        type:str    = data['@type']
+        address:str = data['address']
+        id:int      = data['id']
+        
+        if 'future_pool_governor' in data:
+            future_pool_governor:str = data['future_pool_governor']
+        else:
+            future_pool_governor:str = ''
+
+        if 'total_weight' in data:
+            total_weight:int = data['total_weight']
+        else:
+            total_weight:int = 0
+
+        # Construct the pool parameters
+        if 'pool_params' in data:
+            pool_params:dict = data['pool_params']
+        else:
+            pool_params:dict = {'swap_fee': 0, 'exit_fee': 0, 'smooth_weight_change_params': None, 'spread_factor': data['spread_factor']}
+
+        pool_params:PoolParams = PoolParams().from_dict(pool_params)
+
+        # Shares are just Coin objects
+        if 'total_shares' in data:
+            total_shares:"___cosmos_base_v1_beta1__.Coin" = ___cosmos_base_v1_beta1__.Coin().from_dict(data['total_shares'])
+        else:
+            total_shares:"___cosmos_base_v1_beta1__.Coin" = None
+        
+        # Build a list of assets
+        pool_assets:list = []
+        #/osmosis.concentratedliquidity.v1beta1.Pool
+        #/osmosis.gamm.v1beta1.Pool
+        if type != '/osmosis.gamm.poolmodels.stableswap.v1beta1.Pool':
+            if 'pool_assets' in data:
+                for asset in data['pool_assets']:
+                    pool_assets.append(PoolAsset().from_dict(asset))
+            else:
+                for asset in ['token0', 'token1']:
+                    pool_assets.append(PoolAsset().from_dict({
+                        "token": {
+                            "denom": data[asset],
+                            "amount": 0
+                        },
+                        "weight": 0
+                    }))
+        
+        return cls(type, address, id, pool_params, future_pool_governor, total_shares, pool_assets, total_weight)
 
 @dataclass(eq=False, repr=False)
 class Params(betterproto.Message):
