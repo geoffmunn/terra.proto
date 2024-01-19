@@ -12,6 +12,10 @@ It is specifically built to work with the Terra Classic SDK: https://pypi.org/pr
 
 ## Recent changes
 
+### 3.1.2
+- PoolParams added, to_data and from_data functions added
+- total_shares calculation fixed
+
 ### 3.1.1
 
 - All Python packages updated to the latest version.
