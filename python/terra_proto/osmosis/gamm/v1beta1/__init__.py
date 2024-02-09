@@ -318,7 +318,7 @@ class SwapAmountOutRoute(betterproto.Message):
     """===================== MsgSwapExactAmountOut"""
 
     pool_id: int = betterproto.uint64_field(1)
-    token_in_denom: str = betterproto.string_field(2)
+    token_out_denom: str = betterproto.string_field(2)
 
 
 @dataclass(eq=False, repr=False)
