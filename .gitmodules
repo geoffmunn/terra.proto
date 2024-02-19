@@ -12,8 +12,8 @@
 	branch = release/v0.3.x
 [submodule "terra"]
 	path = terra
-	url = https://github.com/terra-money/core
-	branch = release/v2.6
+	url = https://github.com/classic-terra/core
+	branch = releases/v2.3.3
 [submodule "wasmd"]
 	path = wasmd
 	url = https://github.com/cosmwasm/wasmd
