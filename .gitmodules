@@ -1,7 +1,7 @@
 [submodule "cosmos-sdk"]
 	path = cosmos-sdk
 	url = https://github.com/cosmos/cosmos-sdk.git
-	branch = release/v0.50.x
+	branch = releases/v0.50.4
 [submodule "ibc-go"]
 	path = ibc-go
 	url = https://github.com/cosmos/ibc-go.git
