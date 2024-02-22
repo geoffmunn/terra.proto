@@ -318,7 +318,7 @@ class SwapAmountOutRoute(betterproto.Message):
     """===================== MsgSwapExactAmountOut"""
 
     pool_id: int = betterproto.uint64_field(1)
-    token_in_denom: str = betterproto.string_field(2)
+    token_out_denom: str = betterproto.string_field(2)
 
 
 @dataclass(eq=False, repr=False)
@@ -326,7 +326,7 @@ class MsgSwapExactAmountOut(betterproto.Message):
     sender: str = betterproto.string_field(1)
     routes: List["SwapAmountOutRoute"] = betterproto.message_field(2)
     token_in_max_amount: str = betterproto.string_field(3)
-    token_out: "___cosmos_base_v1_beta1__.Coin" = betterproto.message_field(4)
+    token_out: str = betterproto.message_field(4)
 
 
 @dataclass(eq=False, repr=False)

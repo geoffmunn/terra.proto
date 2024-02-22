@@ -114,22 +114,6 @@ class Params(betterproto.Message):
 
 
 @dataclass(eq=False, repr=False)
-class GenesisState(betterproto.Message):
-    """GenesisState defines the ibc-transfer genesis state"""
-
-    port_id: str = betterproto.string_field(1)
-    denom_traces: List["DenomTrace"] = betterproto.message_field(2)
-    params: "Params" = betterproto.message_field(3)
-    total_escrowed: List["____cosmos_base_v1_beta1__.Coin"] = betterproto.message_field(
-        4
-    )
-    """
-    total_escrowed contains the total amount of tokens escrowed by the transfer
-    module
-    """
-
-
-@dataclass(eq=False, repr=False)
 class QueryDenomTraceRequest(betterproto.Message):
     """
     QueryDenomTraceRequest is the request type for the Query/DenomTrace RPC
@@ -297,6 +281,22 @@ class TransferAuthorization(betterproto.Message):
 
     allocations: List["Allocation"] = betterproto.message_field(1)
     """port and channel amounts"""
+
+
+@dataclass(eq=False, repr=False)
+class GenesisState(betterproto.Message):
+    """GenesisState defines the ibc-transfer genesis state"""
+
+    port_id: str = betterproto.string_field(1)
+    denom_traces: List["DenomTrace"] = betterproto.message_field(2)
+    params: "Params" = betterproto.message_field(3)
+    total_escrowed: List["____cosmos_base_v1_beta1__.Coin"] = betterproto.message_field(
+        4
+    )
+    """
+    total_escrowed contains the total amount of tokens escrowed by the transfer
+    module
+    """
 
 
 class MsgStub(betterproto.ServiceStub):
