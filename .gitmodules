@@ -10,10 +10,6 @@
 	path = alliance
 	url = https://github.com/terra-money/alliance.git
 	branch = release/v0.3.x
-[submodule "terra"]
-	path = terra
-	url = https://github.com/classic-terra/core
-	branch = releases/v2.3.3
 [submodule "wasmd"]
 	path = wasmd
 	url = https://github.com/cosmwasm/wasmd
@@ -31,3 +27,6 @@
 [submodule "pob"]
 	path = pob
 	url = https://github.com/skip-mev/pob
+[submodule "terra"]
+	path = terra
+	url = https://github.com/classic-terra/core
