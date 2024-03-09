@@ -7,4 +7,5 @@ node_modules
 tmp
 
 jax/
-python/dist/.DS_Store
+.DS_Store
+*.pyc
