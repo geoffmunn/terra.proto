@@ -27,3 +27,6 @@
 [submodule "pob"]
 	path = pob
 	url = https://github.com/skip-mev/pob
+[submodule "terra"]
+	path = terra
+	url = https://github.com/classic-terra/core
