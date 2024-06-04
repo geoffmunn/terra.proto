@@ -11,7 +11,7 @@ This is required if you are using the Terra Classic SDK.
 ### Requirements:
 
 ```bash
-python -m pip install "betterproto[compiler]"
+python -m pip install "betterproto[compiler]==2.0.0b6"
 brew install protobuf
 ```
 
@@ -27,6 +27,8 @@ Alongside this, download the current version of terra/core from terra-money
 ```bash
 git clone https://github.com/terra-money/core.git terra/
 ```
+
+If ```terra/``` already exists, then delete it with this: ```git rm -r terra```
 
 Move into the terra.proto directory and add the submodules
 
