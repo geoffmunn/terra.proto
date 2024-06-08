@@ -12,6 +12,10 @@ It is specifically built to work with the Terra Classic SDK: https://pypi.org/pr
 
 ## Recent changes
 
+### 4.0.0
+- version 4 specifically built for Luna Classic 0.47
+- Build steps have been included for future upgrades and testing
+
 ### 3.1.2
 - PoolParams added, to_data and from_data functions added
 - total_shares calculation fixed
